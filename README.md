@@ -1,61 +1,98 @@
-# 🧠 Smart Mistake Pattern Finder
+# 🧠 Smart Mistake Pattern Finder (AI Debug Assistant)
 
-A lightweight AI-powered tool that helps developers **store mistakes**, **learn from them**, and **find similar past mistakes** instantly using semantic search.
+An AI-powered debugging assistant that analyzes **code snippets** or **error messages**, suggests fixes, and learns from previous mistakes using semantic similarity.
 
-This project uses **local embeddings (Sentence Transformers)** — completely **free** with no paid APIs.
+The system stores past mistakes and retrieves similar ones in the future to help developers solve problems faster.
 
----
-
-## 🚀 Features
-
-* ✅ Store mistakes and their fixes
-* ✅ Semantic similarity search (AI-powered)
-* ✅ Prevention by learning from past errors
-* ✅ Streamlit-based simple UI
-* ✅ FastAPI backend for vector storage & search
-* ✅ Fully local — no external API cost
+✅ Fully local
+✅ No paid APIs
+✅ Semantic AI embeddings
+✅ Confidence-based retrieval
 
 ---
 
-## 🏗️ Architecture
+# 🚀 Features
+
+### 🔍 AI Error & Code Analysis
+
+* Paste terminal error or code snippet
+* Automatic rule-based + semantic analysis
+* Suggested fix generated instantly
+
+### 🧠 Memory of Past Mistakes
+
+* Stores analyzed mistakes automatically
+* Retrieves similar previous errors using vector search
+* Improves over time with more data
+
+### 🎯 Confidence Threshold Control
+
+* Adjustable similarity threshold
+* Filters weak matches
+* Improves relevance
+
+### ⚠ Problem Line Highlighting
+
+* Detects suspicious lines in code or stack traces
+* Displays line numbers for quick debugging
+
+### 🤖 Semantic Similarity (Local AI)
+
+Uses:
+
+```
+sentence-transformers/all-MiniLM-L6-v2
+```
+
+* Fast
+* Lightweight (~90MB)
+* Runs offline
+* High accuracy
+
+---
+
+# 🏗️ Architecture
 
 ```
 Streamlit UI (app.py)
+        ↓
+Analyzer Engine (analyzer.py)
         ↓
 Embedding Generator (embedding.py)
         ↓
 FastAPI Backend (backend.py)
         ↓
-Vector Similarity Search
+Vector Similarity Database (in-memory)
 ```
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
 ```
 .
-├── app.py              # Streamlit frontend
-├── backend.py          # FastAPI backend server
-├── embedding.py        # Semantic embedding generation
-├── store_mistake.py    # Store mistakes API client
-├── search_mistake.py   # Search API client
-├── .gitignore
+├── app.py              # Streamlit frontend UI
+├── analyzer.py         # AI analysis + retrieval logic
+├── embedding.py        # Semantic embeddings
+├── backend.py          # FastAPI vector database
+├── store_mistake.py    # Store client
+├── search_mistake.py   # Search client
+├── requirements.txt
 └── README.md
 ```
 
 ---
 
-## ⚙️ Installation
+# ⚙️ Installation
 
-### 1️⃣ Clone Repository
+## 1️⃣ Clone Repository
 
 ```bash
 git clone https://github.com/Gunnu29/endee.git
 cd endee
 ```
 
-### 2️⃣ Create Virtual Environment
+## 2️⃣ Create Virtual Environment
 
 ```bash
 python -m venv venv
@@ -75,101 +112,106 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-### 3️⃣ Install Dependencies
+## 3️⃣ Install Dependencies
 
 ```bash
-pip install streamlit fastapi uvicorn sentence-transformers scikit-learn numpy requests
+pip install -r requirements.txt
 ```
 
 ---
 
-## ▶️ Running the Project
+# ▶️ Running the Project
 
 You need **two terminals**.
 
-### Terminal 1 — Start Backend
+## Terminal 1 — Start Backend
 
 ```bash
 uvicorn backend:app --reload
 ```
 
-Backend runs at:
+Runs at:
 
 ```
 http://localhost:8000
 ```
 
----
-
-### Terminal 2 — Start Streamlit App
+## Terminal 2 — Start Frontend
 
 ```bash
 streamlit run app.py
 ```
 
-App opens in browser automatically.
+---
+
+# 🧪 Usage
+
+1. Paste **code snippet** OR **error message**
+2. Adjust **confidence threshold** (default 0.30 recommended)
+3. Click **Analyze**
+4. View:
+
+   * Suggested fix
+   * Similar past mistakes
+   * Confidence score
+   * Highlighted problem lines
+5. Mistake is stored automatically for future learning
 
 ---
 
-## 🧪 Usage
+# 📊 Confidence Threshold Guide
 
-1. Enter a mistake description
-2. Enter how you fixed it
-3. Click **Store Mistake**
-4. Search similar mistakes using different wording
-5. Learn from previous solutions
+| Threshold | Behavior               |
+| --------- | ---------------------- |
+| 0.20      | Loose matching         |
+| 0.30      | Balanced (recommended) |
+| 0.50      | Strict                 |
+| 0.70+     | Very strict            |
 
----
-
-## 🧠 Embedding Model
-
-This project uses:
-
-```
-sentence-transformers/all-MiniLM-L6-v2
-```
-
-* Small (~90MB)
-* Fast
-* Runs locally
-* No API cost
+Default recommended: **0.30**
 
 ---
 
-## 📌 Example
+# 📌 Example
 
-**Mistake**
-
-```
-ModuleNotFoundError when importing library
-```
-
-**Search**
+### Input
 
 ```
-python package not found
+ModuleNotFoundError: No module named 'flask'
 ```
 
-The system finds related mistakes using semantic similarity.
+### Output
+
+```
+Quick suggestion:
+Package not installed or wrong environment.
+
+Similar past mistakes:
+- ModuleNotFoundError: No module named 'requests'
+  Fix: Activate virtual environment and reinstall package
+
+Confidence: 0.82
+```
 
 ---
 
-## 🔮 Future Improvements
+# 🔮 Future Improvements
 
 * Persistent database (SQLite / Vector DB)
-* User authentication
-* Mistake categorization
+* Language auto-detection
+* Multiple fix ranking
+* Confidence visualization graph
+* Code AST analysis
 * Cloud deployment
-* Confidence score visualization
 
 ---
 
-## 👨‍💻 Author
+# 👨‍💻 Author
 
 Garvita Batra
 
 ---
 
-## 📜 License
+# 📜 License
 
 This project is for educational and demonstration purposes.
